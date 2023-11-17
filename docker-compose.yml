@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+  # Juice-shop is a deliberately vulnerable webste (https://owasp.org/www-project-juice-shop/)
+  juice-shop:
+    image: bkimminich/juice-shop
+    ports:
+      - "80:3000"
+    networks:
+      network:
+        ipv4_address: 192.168.99.100
+    hostname: juice-shop
+
+  kali-linux:
+    build:
+      context: .
+      dockerfile: dockerfile-kali
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.99.0/24
